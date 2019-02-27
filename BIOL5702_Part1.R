@@ -280,7 +280,9 @@ dataPruned[dataPruned$Label %in% bad_labels,] # Now we see that it worked
 arabidopsis <- data[which(data$Group == "Arabidopsis"), ] # Subset Arabidopsis data
 # Calculate Mahalanobis distance
 mdistArabidopsis <- mahalanobis(arabidopsis[ ,3:6], center = colMeans(arabidopsis[ ,3:6]), cov = cov(arabidopsis[ ,3:6]))
-# Calculate which samples have a value beyond the desired threshold
+# Mahalanobis distance is compared to against a chi-square distribution
+qqplot(mdistArabidopsis^2, qchisq(ppoints(390), df = 4)) # QQ plot of squared distance against chi-square
+# Simple calculation of which samples have a value beyond the desired threshold
 moutArabidopsis <- which(mdistArabidopsis > qchisq(0.975, df = 4))
 print(arabidopsis[moutArabidopsis,])
 
