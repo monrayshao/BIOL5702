@@ -76,7 +76,7 @@ subset(y, Column1 > 11 & Column3 == "Yes") # Combining AND operator with subset 
 
 # IMPORT AND PLOT DATA ------------------------------------------
 
-data <- read.csv("https://raw.githubusercontent.com/monrayshao/BIOL5702/master/Results.csv") # Import CSV file
+data <- read.csv(file.choose(), header = T) # Import CSV file
 
 head(data) # Preview first few lines
 dim(data) # Find out how many rows and columns in the table
