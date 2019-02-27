@@ -182,7 +182,7 @@ ggplot(data2, aes(x = Group, y = value)) + geom_boxplot() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # Re-order Traits
-data2$Trait <- factor(data2$Trait, c("Circ.", "AR", "Round", "Solidity"))
+data2$Trait <- factor(data2$Trait, c("Circ.", "AR", "Solidity", "Round"))
 ggplot(data2, aes(x = Group, y = value)) + geom_boxplot() + 
   facet_wrap(~Trait, scales = "free", nrow = 1) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
