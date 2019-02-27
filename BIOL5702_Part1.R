@@ -260,26 +260,24 @@ par(mfrow=c(1,1))
 # OUTLIERS ----------------------------------------------------------------
 
 # Univariate outlier identification example
-grape <- subset(data, Group == "Grape") # Let's identify any outliers for Grape
-q1 <- quantile(grape$Circ., probs = 0.25) # Extract value corresponding to first quantile for Circularity
-q3 <- quantile(grape$Circ., probs = 0.75) # Extract value corresponding to third quantile for Circularity
-iqr <- IQR(grape$Circ.) # Calculate inter-quantile range value
+tomato2 <- subset(data, Group == "Tomato") # Let's identify any outliers for Tomato
+q1 <- quantile(tomato2$Round, probs = 0.25) # Extract value corresponding to first quantile for Roundness
+q3 <- quantile(tomato2$Round, probs = 0.75) # Extract value corresponding to third quantile for Roundness
+iqr <- IQR(tomato2$Round) # Calculate inter-quantile range value
 lowThreshold <- q1 - (1.5 * iqr) # Set lower cutoff for outliers
 highTreshold <- q3 + (1.5 * iqr) # Set upper cutoff for outliers
-bad <- which(grape$Circ. < lowThreshold | grape$Circ. > highTreshold) # Select Apple Circularity values beyond thresholds
-print(grape$Label[bad]) # Show the label names of the outliers
-bad_labels <- grape$Label[bad] # Save the label names of the outliers
-grape[grape$Label %in% bad_labels,] # Show the rows containing the outlier labels
-grape[grape$Label %in% bad_labels,]$Circ. # Show the outlier Circularity values in the object to be changed
-grape[grape$Label %in% bad_labels,]$Circ. <- NA # Change these values to NA
-grape[grape$Label %in% bad_labels,] # Now we see that it worked
+bad <- which(tomato2$Round < lowThreshold | tomato2$Round > highTreshold) # Select Apple Circularity values beyond thresholds
+print(tomato2$Label[bad]) # Show the label names of the outliers
+bad_labels <- tomato2$Label[bad] # Save the label names of the outliers
+tomato2[tomato2$Label %in% bad_labels,] # Show the rows containing the outlier labels
+tomato2[tomato2$Label %in% bad_labels,]$Round # Show the outlier Circularity values in the object to be changed
+tomato2[tomato2$Label %in% bad_labels,]$Round <- NA # Change these values to NA
+tomato2[tomato2$Label %in% bad_labels,] # Now we see that it worked
 
 # Compare the QQ plot for Grape Circularity before and after outlier removal
-before <- subset(data, Group == "Grape")$Circ.
-after <- grape$Circ.
 par(mfrow = c(1,2))
-qqnorm(before)
-qqnorm(after)
+qqnorm(tomato$Round, main = "Before"); qqline(tomato$Round, col = "red") # QQ plot of original Tomato Roundness
+qqnorm(tomato2$Round, main = "After"); qqline(tomato2$Round, col = "red") # QQ plot of Tomato Roundness after outlier removal
 par(mfrow = c(1,1))
 
 # Multivariate outlier identification example example
