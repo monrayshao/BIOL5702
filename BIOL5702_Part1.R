@@ -281,7 +281,7 @@ arabidopsis <- data[which(data$Group == "Arabidopsis"), ] # Subset Arabidopsis d
 # Calculate Mahalanobis distance
 mdistArabidopsis <- mahalanobis(arabidopsis[ ,3:6], center = colMeans(arabidopsis[ ,3:6]), cov = cov(arabidopsis[ ,3:6]))
 # Calculate which samples have a value beyond the desired threshold
-moutArabidopsis <- which(mdistArabidopsis > qchisq(0.95, df = 4))
+moutArabidopsis <- which(mdistArabidopsis > qchisq(0.975, df = 4))
 print(arabidopsis[moutArabidopsis,])
 
 # Run a loop to identify all multivariate outliers within each Group
@@ -289,7 +289,7 @@ dataPruned2 <- data # Create a new object to run through the multivariate outlie
 for (i in c("Arabidopsis", "Apple", "Grape", "Poaceae", "Tomato")){ # for every Group...
   dataSubset <- subset(subset(data, Group == i)) # Select the data corresponding to that Group
   mdist <- mahalanobis(dataSubset[ ,3:6], center = colMeans(dataSubset[ ,3:6]), cov = cov(dataSubset[ ,3:6])) # Calculate Mahalanobis
-  mout <- which(mdist > qchisq(0.95, df = 4)) # Identify which values are beyond the threshold for this Group
+  mout <- which(mdist > qchisq(0.975, df = 4)) # Identify which values are beyond the threshold for this Group
   if(length(mout) >= 1){ # If there's at least one outlier...
     mout_labels <- dataSubset$Label[mout] # Save the labels corresponding to those outliers
     dataPruned2[dataPruned2$Label %in% mout_labels, 3:6] <- NA # Replace the data values of the outlier with NA
