@@ -57,6 +57,7 @@ y[1, ] # Select the first row
 y[1,1] # Select the cell located in column 1, row 1
 y[n,n] # Select the cell located in column "n", row "n"
 y[ ,"Column1"] # Select the column "Column1"
+y[ ,-1] # Omit the first column
 
 print(y)
 y[which(y$Column1 > 11), ] # Select all rows in which the the value of Column1 > 110
@@ -71,8 +72,6 @@ y[which(y$Column1 > 11 | y$Column3 == "Yes"), ] # Using an "|" for the OR operat
 subset(y, Column1 > 11) # Using the subset function for easy selection
 subset(y, Column3 == "Yes")
 subset(y, Column1 > 11 & Column3 == "Yes") # Combining AND operator with subset function
-
-
 
 # IMPORT AND PLOT DATA ------------------------------------------
 
@@ -261,25 +260,26 @@ par(mfrow=c(1,1))
 # OUTLIERS ----------------------------------------------------------------
 
 # Univariate outlier identification example
-dataPruned <- data # Save original data to new object for use
-dataSubset <- subset(data, Group == "Grape") # Let's identify any outliers for Apple
-q1 <- quantile(dataSubset$Circ., probs = 0.25) # Extract value corresponding to first quantile for Circularity
-q3 <- quantile(dataSubset$Circ., probs = 0.75) # Extract value corresponding to third quantile for Circularity
-iqr <- IQR(dataSubset$Circ.) # Calculate inter-quantile range value
+grape <- subset(data, Group == "Grape") # Let's identify any outliers for Grape
+q1 <- quantile(grape$Circ., probs = 0.25) # Extract value corresponding to first quantile for Circularity
+q3 <- quantile(grape$Circ., probs = 0.75) # Extract value corresponding to third quantile for Circularity
+iqr <- IQR(grape$Circ.) # Calculate inter-quantile range value
 lowThreshold <- q1 - (1.5 * iqr) # Set lower cutoff for outliers
 highTreshold <- q3 + (1.5 * iqr) # Set upper cutoff for outliers
-bad <- which(dataSubset$Circ. < lowThreshold | dataSubset$Circ. > highTreshold) # Select Apple Circularity values beyond thresholds
-print(dataSubset$Label[bad]) # Show the label names of the outliers
-bad_labels <- dataSubset$Label[bad] # Save the label names of the outliers
-dataPruned[dataPruned$Label %in% bad_labels,] # Show the rows containing the outlier labels
-dataPruned[dataPruned$Label %in% bad_labels,]$Circ. # Show the outlier Circularity values in the object to be changed
-dataPruned[dataPruned$Label %in% bad_labels,]$Circ. <- NA # Change these values to NA
-dataPruned[dataPruned$Label %in% bad_labels,] # Now we see that it worked
+bad <- which(grape$Circ. < lowThreshold | grape$Circ. > highTreshold) # Select Apple Circularity values beyond thresholds
+print(grape$Label[bad]) # Show the label names of the outliers
+bad_labels <- grape$Label[bad] # Save the label names of the outliers
+grape[grape$Label %in% bad_labels,] # Show the rows containing the outlier labels
+grape[grape$Label %in% bad_labels,]$Circ. # Show the outlier Circularity values in the object to be changed
+grape[grape$Label %in% bad_labels,]$Circ. <- NA # Change these values to NA
+grape[grape$Label %in% bad_labels,] # Now we see that it worked
 
 # Compare the QQ plot for Grape Circularity before and after outlier removal
+before <- subset(data, Group == "Grape")$Circ.
+after <- grape$Circ.
 par(mfrow = c(1,2))
-qqnorm(subset(data, Group == "Grape")$Circ.)
-qqnorm(subset(dataPruned, Group == "Grape")$Circ.)
+qqnorm(before)
+qqnorm(after)
 par(mfrow = c(1,1))
 
 # Multivariate outlier identification example example
