@@ -260,9 +260,9 @@ par(mfrow=c(1,1))
 
 # OUTLIERS ----------------------------------------------------------------
 
-### Univariate outlier identification example
+# Univariate outlier identification example
 dataPruned <- data # Save original data to new object for use
-dataSubset <- subset(data, Group == "Apple") # Let's identify any outliers for Apple
+dataSubset <- subset(data, Group == "Grape") # Let's identify any outliers for Apple
 q1 <- quantile(dataSubset$Circ., probs = 0.25) # Extract value corresponding to first quantile for Circularity
 q3 <- quantile(dataSubset$Circ., probs = 0.75) # Extract value corresponding to third quantile for Circularity
 iqr <- IQR(dataSubset$Circ.) # Calculate inter-quantile range value
@@ -276,7 +276,13 @@ dataPruned[dataPruned$Label %in% bad_labels,]$Circ. # Show the outlier Circulari
 dataPruned[dataPruned$Label %in% bad_labels,]$Circ. <- NA # Change these values to NA
 dataPruned[dataPruned$Label %in% bad_labels,] # Now we see that it worked
 
-### Multivariate outlier identification example example
+# Compare the QQ plot for Grape Circularity before and after outlier removal
+par(mfrow = c(1,2))
+qqnorm(subset(data, Group == "Grape")$Circ.)
+qqnorm(subset(dataPruned, Group == "Grape")$Circ.)
+par(mfrow = c(1,1))
+
+# Multivariate outlier identification example example
 arabidopsis <- data[which(data$Group == "Arabidopsis"), ] # Subset Arabidopsis data
 # Calculate Mahalanobis distance
 mdistArabidopsis <- mahalanobis(arabidopsis[ ,3:6], center = colMeans(arabidopsis[ ,3:6]), cov = cov(arabidopsis[ ,3:6]))
