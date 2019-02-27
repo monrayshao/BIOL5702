@@ -9,12 +9,12 @@
 
 # INSTALL NEEDED PACKAGES -------------------------------------------------
 
-install.packages("tidyr")
 install.packages("ggplot2")
 install.packages("RColorBrewer")
-library(tidyr)
+install.packages("tidyr")
 library(ggplot2)
 library(RColorBrewer)
+library(tidyr)
 
 
 
