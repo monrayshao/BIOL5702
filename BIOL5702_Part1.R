@@ -51,6 +51,7 @@ class(y$Column3) # Column 3 is a factor
 y$Column3 <- as.character(y$Column3) # Convert Column 3 to a character
 class(y$Column3) # Column3 is now a character class
 
+print(y)
 y$Column1 # Select the column "Column1"
 y[ ,1] # Select the first column
 y[1, ] # Select the first row
@@ -95,6 +96,7 @@ data[grep("apple", data$Label), ]$Group <- "Apple" # Repeat for Apple
 data[grep("grape", data$Label), ]$Group <- "Grape" # Repeat for Grape
 data[grep("poaceae", data$Label), ]$Group <- "Poaceae" # Repeat for Poaceae
 data[grep("tomato", data$Label), ]$Group <- "Tomato" # Repeat for Tomato
+head(data) # View the result
 
 arabidopsis <- data[which(data$Group == "Arabidopsis"), ] # Select Arabidopsis rows into its own new data frame
 head(arabidopsis)
@@ -114,6 +116,8 @@ max(tomato$Solidity) # Calculate maximum value of Tomato Solidity
 range(tomato$Solidity) # Calculate min and max Tomato Solidity
 summary(tomato$Solidity) # Calculate summary of Tomato Solidity
 
+### GO BACK TO SLIDES
+
 plot(tomato$Solidity) # Use base graphics to plot Tomato Solidity, note x-axis is just the index (ordered by row)
 plot(tomato$Solidity, tomato$AR) # Make scatterplot of Tomato Solidity vs AR
 colnames(tomato) # Show a list of all column names in Tomato data frame
@@ -121,6 +125,8 @@ plot(tomato[ ,c(6, 4)]) # We can make Tomato scatterplot again but using column 
 plot(arabidopsis[ ,c(6, 4)], col = "blue", main = "Arabidopsis") # Compare to similar Arabidopsis scatterplot
 
 plot(data[ ,c(6, 4)]) # If you try to plot Solidity vs AR using all data, it's a mess
+
+### GO BACK TO SLIDES
 
 library(ggplot2)
 # ggplot scatterplot of tomato Solidity vs AR
@@ -137,6 +143,7 @@ ggplot(data, aes(x = Solidity, y = AR)) + geom_point(aes(color = Group)) + facet
 # For illustration purposes, create a new dummy variable called "Batch"
 dataBatched <- data
 dataBatched$Batch <- rep(x = c("Batch1", "Batch2"), times = nrow(dataBatched)/2)
+head(dataBatched) # View the results
 # ggplot of all Solidity vs AR, faceted by Group, colored by Batch
 ggplot(dataBatched, aes(x = Solidity, y = AR)) + geom_point(aes(color = Batch)) + 
   facet_wrap(~Group, scales = "free", nrow = 1)
@@ -156,6 +163,8 @@ ggplot(data, aes(x = Group, y = Solidity)) + geom_jitter(width = 0.1)
 ggplot(data, aes(x = Group, y = Solidity)) + 
   geom_boxplot(outlier.colour = NA) + 
   geom_jitter(width = 0.1, alpha = 0.1)
+
+### GO BACK TO SLIDES
 
 library(tidyr)
 # Two ways to convert wide data to long data using tidyr package
@@ -206,6 +215,8 @@ ggplot(data2, aes(x = Group, y = value)) + geom_boxplot(aes(fill = Group), width
   scale_fill_brewer(palette = "Set2") + 
   guides(fill = FALSE) 
 
+### GO BACK TO SLIDES
+
 
 
 # DIAGNOSTICS -------------------------------------------------------------
@@ -228,6 +239,8 @@ ks.test(tomato$Solidity, "pnorm",
 ks.test(arabidopsis$Solidity, "pnorm", 
         mean = mean(arabidopsis$Solidity), 
         sd = sd(arabidopsis$Solidity)) # Arabidopsis clearly not normally distributed
+
+### GO BACK TO SLIDES
 
 # Simple example of a loop
 for (i in 1:5){
@@ -254,6 +267,8 @@ for (i in c("Apple", "Arabidopsis", "Grape", "Poaceae", "Tomato")){
   qqline(subset(data, Group == i)$Circ., col = "red") # Make QQ-line red color
 }
 par(mfrow=c(1,1))
+
+### GO BACK TO SLIDES
 
 
 
@@ -312,6 +327,8 @@ p1 <- ggplot(data, aes(x = Solidity, y = AR)) + geom_point(aes(color = Group)) +
 p2 <- ggplot(dataPruned2, aes(x = Solidity, y = AR)) + geom_point(aes(color = Group)) + 
   facet_wrap(~Group, scales = "free", nrow = 1) + labs(title = "Multivariate Outliers Removed") + guides(color = F)
 grid.arrange(p1, p2) # plot both scatterplots in same window
+
+### GO BACK TO SLIDES
 
 
 
