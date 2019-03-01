@@ -329,27 +329,3 @@ p2 <- ggplot(dataPruned2, aes(x = Solidity, y = AR)) + geom_point(aes(color = Gr
 grid.arrange(p1, p2) # plot both scatterplots in same window
 
 ### GO BACK TO SLIDES
-
-
-
-# PRINCIPAL COMPONENT ANALYSIS --------------------------------------------
-
-scaledData <- dataPruned2 # Save outlier-removed data to a new object to be scaled
-scaledData[ ,3:6] <- scale(scaledData[ ,3:6], scale = TRUE, center = TRUE) # Scaling; zero-centers and divides by standard deviation
-pcaData <- as.matrix(scaledData[ ,3:6]) # PCA function was matrix format
-head(pcaData)
-
-pcaRes <- prcomp(pcaData) # Perform PCA
-summary(pcaRes) # Check proportion of variance explained by PC's
-plot(pcaRes) # Plot proportion of variance explained by each PC
-
-pcaRes$rotation[, c(1,2)] # See loadings for PC1 and PC2
-biplot(pcaRes, cex = 0.75) # One way to plot PCA results
-
-pcaGG <- data.frame(pcaRes$x, Group = scaledData$Group, Label = scaledData$Label) # Extract loadings and Treatment info for ggplot
-ggplot(pcaGG, aes(x = PC1, y = PC2)) + geom_point(aes(color = Group)) + labs(title = "PC1 and PC2") # Plot PC1 and PC2 in ggplot
-ggplot(pcaGG, aes(x = PC1, y = PC3)) + geom_point(aes(color = Group)) + labs(title = "PC1 and PC3") # Plot PC1 and PC3 in ggplot
-ggplot(pcaGG, aes(x = PC2, y = PC3)) + geom_point(aes(color = Group)) + labs(title = "PC2 and PC3") # Plot PC2 and PC3 in ggplot
-
-subset(pcaGG, Group == "Poaceae" & (PC1 > 5 | PC1 < 0) & (PC2 > 2 | PC2 < 2)) # Get extreme Poaceae leaves
-# Check poaceae_108.jpg and poaceae_109.jpg
